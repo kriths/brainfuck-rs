@@ -67,11 +67,11 @@ impl CPU {
                     }
                 }
                 b'+' => {
-                    self.memory[self.dp] += 1;
+                    self.memory[self.dp] = self.read_data().wrapping_add(1);
                     self.ip += 1;
                 }
                 b'-' => {
-                    self.memory[self.dp] -= 1;
+                    self.memory[self.dp] = self.read_data().wrapping_sub(1);
                     self.ip += 1;
                 }
                 b'>' => {
