@@ -48,7 +48,7 @@ fn parse_source_code(file_content: Vec<u8>) -> anyhow::Result<Vec<u8>> {
     Ok(code)
 }
 
-pub fn load_and_verify(file_name: String) -> anyhow::Result<Vec<u8>> {
+pub fn load_and_verify(file_name: &String) -> anyhow::Result<Vec<u8>> {
     let file_content = fs::read(file_name)?;
     parse_source_code(file_content)
 }
