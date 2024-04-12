@@ -1,3 +1,5 @@
+use std::io::Read;
+
 pub const MINIMUM_MEMORY_SIZE: usize = 30_000;
 
 pub struct CPU {
@@ -14,6 +16,7 @@ impl CPU {
     }
 
     pub fn run(mut self) {
+        let mut read_buffer = [0u8];
         loop {
             if self.ip == self.code.len() {
                 // Program finished
@@ -92,7 +95,15 @@ impl CPU {
                     print!("{}", self.memory[self.dp] as char);
                     self.ip += 1;
                 }
-                b',' => { todo!("input not implemented") }
+                b',' => {
+                    match std::io::stdin().read(&mut read_buffer) {
+                        Ok(1) => {
+                            self.memory[self.dp] = read_buffer[0];
+                            self.ip += 1;
+                        }
+                        _ => panic!("Error while reading from stdin")
+                    }
+                }
                 _ => unreachable!("Invalid BF source character {}", instruction)
             }
         }
